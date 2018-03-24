@@ -2,12 +2,12 @@ var path = require('path');
 var webpack = require("webpack");
 
 module.exports = {
-  entry: "js\app.js",
-  output: {
-    //path: path.resolve(__dirname, './build/js/'),
-    path: __dirname + '/dist/js/',
-    filename: 'bundle.js'
-  },
+  //context: path.join(__dirname, "src"),
+  //entry: "app.js",
+  // output: {
+  //   path: path.resolve(__dirname, 'dist/js/'),
+  //   filename: 'bundle.js'
+  // },
   devtool: 'eval-source-map',
   module: {
     rules: [
