@@ -1,22 +1,44 @@
 import React from 'react';
 
-const ComboboxInput = ({
-	classNames,
-	placeholder,
-	searchQuery,
-	selectValue,
-	changeQuery,
-	focusHandler,
-	blurHandler
-}) => (
-	<input
-		type="text"
-		className={ classNames.join(',') }
-		placeholder={ placeholder }
-		value={ selectValue || searchQuery }
-		onChange={ e => { changeQuery(e.target.value); } }
-		onFocus={ focusHandler }
-		onBlur={ blurHandler } />
-);
+export default class ComboboxInput extends React.Component {
+	componentDidMount(){
 
-export default ComboboxInput;
+	}
+	render(){
+		const {
+			classNames,
+			placeholder,
+			query,
+			changeQuery,
+			setFocus,
+			selectedString,
+			isFocus,
+			inputRef
+		} = this.props;
+
+		let inputBody;
+		if(isFocus){
+			inputBody =  (
+				<input
+					type="text"
+					placeholder={ placeholder }
+					value={ query }
+					onChange={ e => { changeQuery(e.target.value); } } />
+			);
+		} else {
+			inputBody = (
+				<span>{ selectedString || query }</span>
+			);
+		}
+		return (
+			<label
+				className={ classNames.join(' ') }
+				onClick={ setFocus }
+				ref={ inputRef }>
+				{ inputBody }
+			</label>
+		);
+	}
+	
+}
+;

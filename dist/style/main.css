@@ -1,0 +1,36 @@
+.combobox {
+  position: relative;
+}
+
+.combobox__input {
+  height: 15px;
+  padding: 3px;
+  width: 100%;
+  display: block;
+  border: 1px solid #4a4a4a;
+}
+
+.combobox__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 340px;
+  max-height: 300px;
+  overflow-x: hidden;
+  z-index: 10;
+  background-color: #fff;
+  box-shadow: 0 0 4px 0 #8a8a8a;
+}
+
+.combobox__listitem.active {
+  background-color: #3072c4;
+  color: #fff;
+}
+
+.combobox__empty {
+  color: #6a6a6a;
+}
+
+.hide {
+  display: none !important;
+}

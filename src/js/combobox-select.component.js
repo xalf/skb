@@ -7,7 +7,7 @@ const ComboboxSelect = (props) => {
 		<Combobox 
 			{ ...props }
 			placeholder={ COMBOBOX_SELECT_PLACEHOLDER } 
-			comboboxClass={ 'combobox--select' }
+			comboboxTypeClass={ 'combobox--select' }
 			isOpenFocus={ true }
 			/>
 	);

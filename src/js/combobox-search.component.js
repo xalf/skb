@@ -1,12 +1,11 @@
 import React from 'react';
 import Combobox from './combobox.component';
-import Popover from './popover.component';
 import { 
 	COMBOBOX_SEARCH_PLACEHOLDER,
 	COMBOBOX_SEARCH_MAX_ITEMS_COUNT
  } from './combobox.constants';
 
-export default class ComboboxSearch extends Popover {
+export default class ComboboxSearch extends React.Component {
 	render(){
 		return (
 			<Combobox
