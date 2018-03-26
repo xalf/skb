@@ -14,11 +14,13 @@ import {
 	showSearchRequest,
 	hidePendingIndicator,
 	inputFocus,
-	leftEmpty
+	leftEmpty,
+	updateList
 } from './js/combobox.actions';
 import {
 	SMALL_INPUT_CLASS,
-	LARGE_INPUT_CLASS
+	LARGE_INPUT_CLASS,
+	MEDIUM_INPUT_CLASS
 } from './js/combobox.constants';
 import queryObserverMiddleware from './js/query_observer.middleware';
 import './style/style.scss';
@@ -55,6 +57,7 @@ const mapStateToProps = state => {
 		selectedIndex: state.selectedIndex,
 		itemsList: state.itemsList.filter(filterListFn(state.filterQuery)),
 		emptyError: state.emptyError,
+		serverError: state.serverError,
 		isPending: state.isPending
 	}
 }
@@ -66,14 +69,15 @@ const mapDispatchToProps = {
 	showSearchRequest,
 	hidePendingIndicator,
 	inputFocus,
-	leftEmpty
+	leftEmpty,
+	updateList
 };
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
 	return Object.assign({}, ownProps, dispatchProps, stateProps, {
 		renderItem: renderItem,
 		itemToString: itemToString,
-		sizeClass: LARGE_INPUT_CLASS
+		sizeClass: MEDIUM_INPUT_CLASS
 	})
 }
 

@@ -7,11 +7,11 @@ import {
 	KEY_CODE_UP,
 	KEY_CODE_DOWN
 } from './combobox.constants';
-
+import { Scrollbars } from 'react-custom-scrollbars';
 
 export default class ComboboxDropdown extends React.Component {
 	
-  //блокирование скроллинга
+  //блокирование скроллинга, скроллбар
   
   navigateDown = () => {
   	const { 
@@ -42,9 +42,9 @@ export default class ComboboxDropdown extends React.Component {
     window.removeEventListener('keydown', this.onKeyDown);
   }
   onKeyDown = event => {
-    if (!this.props.isOpen) {
-      return;
-    }
+    // if (!this.props.isOpen) {
+    //   return;
+    // }
 
     if ([KEY_CODE_ESC, KEY_CODE_ENTER].includes(event.keyCode)) {
       event.preventDefault();
@@ -80,37 +80,62 @@ export default class ComboboxDropdown extends React.Component {
   };
   render(){
   	const {
-  		isOpen,
-  		itemsList
+  		itemsList,
+      serverError,
+      isPending,
+      updateList
   	} = this.props;
 
-  	let list;
-  	if(itemsList.length > 0){
-  		list = itemsList
-	  		.map((item,i) => {
-	  			let isActive = false;
-	  			if(i === this.props.selectedIndex)
-	  				isActive = true;
+  	let dropdownBody;
+    if(isPending)
+      dropdownBody = (
+        <Loader />
+      );
+    else if(serverError)
+      dropdownBody = (
+        <div className="combobox__server-error">
+          <p>
+            { serverError }
+          </p>
+          <button 
+            className="combobox__update"
+            onClick={ updateList }>
+            Обновить
+          </button>
+        </div>
+      );
+    else if(itemsList.length > 0){
+      const list = itemsList
+        .map((item,i) => {
+          let isActive = false;
+          if(i === this.props.selectedIndex)
+            isActive = true;
 
-		  		return (
-		  			<ComboboxListItem
-		  				key={ i }
-		  				isActive={ isActive }
-		  				clickHandler={ () => { this.props.selectItem(item, i); } }>
-		  				{ this.props.renderItem(item) }
-		  			</ComboboxListItem>
-		  		);
-		  	});
-  	} else {
-  		list = (
-  			<p className="combobox__empty">Не найдено</p>
-  		)
-  	}
+          return (
+            <ComboboxListItem
+              key={ i }
+              isActive={ isActive }
+              clickHandler={ () => { this.props.selectItem(item, i); } }>
+              { this.props.renderItem(item) }
+            </ComboboxListItem>
+          );
+        });
+        dropdownBody = (
+          <Scrollbars
+            style={{ height: 345, width: 340 }}
+            renderThumbVertical={props => <div {...props} className="thumb-vertical"/>}>
+            { list }
+          </Scrollbars>
+        );
+    } else {
+      dropdownBody = (
+        <p className="combobox__empty">Не найдено</p>
+      );
+    }
   	
-
     return (
-    	<div className={ `combobox__dropdown ${ isOpen ? '' : 'hide' }` }>
-    		{ list }
+    	<div className='combobox__dropdown'>
+    		{ dropdownBody }
     	</div>
     );
   }

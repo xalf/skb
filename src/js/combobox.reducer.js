@@ -7,7 +7,8 @@ import {
 	INPUT_FOCUS,
 	LEFT_EMPTY,
 	EMPTY_ERROR,
-	CHANGE_SELECTED_INDEX
+	CHANGE_SELECTED_INDEX,
+	SEND_SEARCH_REQUEST_ERROR
 } from './combobox.constants';
 
 
@@ -20,6 +21,7 @@ const getComboboxReducer = (itemsList, itemToString) => {
 		query: '',
 		filterQuery: '',
 		emptyError: false,
+		serverError: false,
 		isPending: false
 	}
 	const comboboxReducer = (state = initialState, action) => {
@@ -60,22 +62,32 @@ const getComboboxReducer = (itemsList, itemToString) => {
 			case LEFT_EMPTY: {
 				return {
 					...state,
-					emptyError: EMPTY_ERROR
+					emptyError: !state.selectedItem ? EMPTY_ERROR : false
 				}
 			}
 			case SEND_SEARCH_REQUEST: {
 				return {
-					...state
+					...state,
+					isPending: true
+				}
+			}
+			case SEND_SEARCH_REQUEST_ERROR : {
+				return {
+					...state,
+					serverError: action.payload.error
 				}
 			}
 			case SHOW_SEARCH_RESULTS: {
 				return {
-					...state
+					...state,
+					serverError: false,
+					itemsList: action.payload.results
 				}
 			}
 			case HIDE_PENDING_INDICATOR: {
 				return {
-					...state
+					...state,
+					isPending: false
 				}
 			}
 			default:

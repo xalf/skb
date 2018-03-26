@@ -1,61 +1,128 @@
+* {
+	box-sizing: border-box;
+}
+body {
+	color: #333;
+}
+
 .combobox {
 	position: relative;
+	font-size: 14px;
+	line-height: 1.4;
+	font-family: Arial;
 
-	&--small {
-
-	}
-	&--medium {
-
-	}
-	&--large {
-
-	}
+	
 	&--select {
-
+		padding-right: 27px;
 	}
 	&--search {
 
 	}
 
-	&__input {
-		height: 15px;
-		padding: 3px;
-		width: 100%;
-		    display: block;
-		border: 1px solid #4a4a4a;
-		&:active {
-
-		}
-		&:focus {
-
-		}
-	}
 	&__dropdown {
 		position: absolute;
-		top: 100%;
+		top: 109%;
 		left: 0;
 		width: 340px;
-		max-height: 300px;
+		max-height: 350px;
 		overflow-x: hidden;
 		z-index: 10;
 		background-color: #fff;
-		box-shadow: 0 0 4px 0 #8a8a8a; 
+		border: 1px solid #d5d5d5;
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); 
 	}
 	&__error-block {
-
+		color: #da0902;
+	}
+	&__update {
+		display: block;
+		width: 100%;
+		border: none;
+		background-color: #5199db;
+		color: #fff;
+		padding: 7px 10px;
+	}
+	&__server-error {
+		p {
+			padding: 7px 10px;
+		}
 	}
 	&__listitem {
-		
+		padding: 7px 10px;
+		cursor: pointer;
 		&.active {
-			background-color: #3072c4;
+			background-color: #5199db;
 			color: #fff;
 		}
 	}
 	&__empty {
-		color: #6a6a6a;
+		color: #777;
+		margin: 0;
+		padding: 7px 10px;
 	}
+}
+
+.thumb-vertical {
+	border-radius: 2px;
+	background-color: #bbb;
+	right: 3px; 
 }
 
 .hide {
 	display: none !important;
 }
+
+.text-input {
+		width: 340px;
+    display: block;
+    white-space: nowrap;
+		padding-left: 10px;
+		border: 1px solid #d9d9d9;
+		border-top-color: #b2b2b2;
+    margin-bottom: 10px;
+		
+		&__input {
+			border: none;
+			outline: none;
+			padding: 0;
+			display: block;
+    	width: 100%;
+    	font-size: inherit;
+    	line-height: inherit;
+    	font-family: inherit;
+
+    	&::placeholder {
+    		color: #ccc;
+    	}
+		}
+		&__placeholder {
+			display: block;
+			color: #aaa;
+		}
+		&__value {
+			display: block;
+		}
+
+		&.small {
+			padding-top: 6px;
+			padding-bottom: 6px;
+		}
+		&.medium {
+			padding-top: 9px;
+			padding-bottom: 9px;
+		}
+		&.large {
+			font-size: 16px;
+			padding-top: 11px;
+			padding-bottom: 11px;
+		}
+
+		&.error {
+			border-color: #da0902;
+			box-shadow: 0 0 0 1px #da0902;
+		}
+		&.focus {
+			border-color: #5199db;
+			box-shadow: 0 0 0 1px #5199db;
+		}
+	}

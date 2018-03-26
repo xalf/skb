@@ -85,7 +85,7 @@ export default class Combobox extends React.Component {
 		!this.state.isDropdownOpen && this.open();
 	}
 	componentWillReceiveProps(nextProps){
-		if(nextProps.itemsList.length === 0 && this.props.selectedIndex !== null)
+		if(nextProps.itemsList.length === 0 && nextProps.selectedIndex !== null)
 			this.props.changeSelectedIndex(null);
 	}
   render(){
@@ -100,18 +100,16 @@ export default class Combobox extends React.Component {
   		renderItem,
   		isPending,
   		emptyError,
+  		serverError,
   		errors,
   		comboboxTypeClass,
-  		sizeClass
+  		sizeClass,
+  		updateList
   	} = this.props;
   	const {
   		isInputFocus,
   		isDropdownOpen
   	} = this.state;
-
-  	let inputClasses = ["combobox__input", sizeClass];
-  	if(errors)
-  		inputClasses.push('error')
 
     return (
     	<div className="combobox__wrapper">
@@ -120,23 +118,26 @@ export default class Combobox extends React.Component {
 	    		className={ `combobox ${ comboboxTypeClass }`}>
 	    		<ComboboxInput
 	    			inputRef={ node => { this.input_node = node; } }
-	    			classNames={ inputClasses }
 	    			placeholder={ placeholder }
 	    			setFocus={ this.focus }
 	    			isFocus={ isInputFocus }
+	    			isError={ !!emptyError }
+	    			sizeClass={ sizeClass }
 	    			changeQuery={ this.changeQuery }
 	    			query={ query }
 	    			selectedString={ itemToString(selectedItem) } />
-    			<ComboboxDropdown
-    				itemsList={ itemsList }
-    				renderItem={ renderItem }
-    				isPending={ isPending }
-    				selectItem={ this.selectItem }
-    				isOpen={ isDropdownOpen }
-    				selectedIndex={ selectedIndex }
-    				changeSelectedIndex={ changeSelectedIndex }
-    				close={ this.close } />
-	    		
+    			{ isDropdownOpen ? (
+    				<ComboboxDropdown
+	    				itemsList={ itemsList }
+	    				renderItem={ renderItem }
+	    				serverError={ serverError }
+	    				isPending={ isPending }
+	    				selectItem={ this.selectItem }
+	    				selectedIndex={ selectedIndex }
+	    				changeSelectedIndex={ changeSelectedIndex }
+	    				close={ this.close } 
+	    				updateList={ updateList }/>
+    			) : null }
 	    	</div>
 	    	{ emptyError ? (
 	    		<div className="combobox__error-block">

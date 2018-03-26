@@ -1,55 +1,52 @@
 import { throttle } from 'throttle-debounce';
 import {
-  
+  sendSearchRequest,
+  hidePendingIndicator,
+  showSearchRequest,
+  sendSearchRequestError
 } from './combobox.actions';
 import {
-  SEARCH_REQUEST_MIN_INTERVAL
+  SEARCH_REQUEST_MIN_INTERVAL,
+  CHANGE_QUERY,
+  SEARCH_REQUEST_SERVER_ERROR,
+  UPDATE_LIST
 } from './combobox.constants';
+import mockFull from '../kladr.json';
 
 const queryObserverMiddleware = store => next => {
   let searchRequestPendingNumber = 0;
 
-  // Send search request only once in specified time
+  const doAlways = () => {
+    console.log('doAlways');
+    searchRequestPendingNumber--;
+    if (searchRequestPendingNumber === 0) {
+      store.dispatch(hidePendingIndicator());
+    }
+  };
+
   const throttledSearchRequest = throttle(SEARCH_REQUEST_MIN_INTERVAL, requestParams => {
     searchRequestPendingNumber++;
     store.dispatch(sendSearchRequest());
-    API.post({
-      url: '/search',
-      ...requestParams
-    });
+
+    //here can be ajax
+    const isImitationServerError = Math.random() > 0.9;
+
+    isImitationServerError ? 
+      store.dispatch(sendSearchRequestError(SEARCH_REQUEST_SERVER_ERROR)) :
+      store.dispatch(showSearchRequest(mockFull));
+
+    doAlways();
   });
 
   return action => {
-    if (action.type !== CHANGE_QUERY || store.getState().search.query === action.payload.query) {
+    if ((action.type !== CHANGE_QUERY || 
+      store.getState().query === action.payload.query
+      || !action.payload.query) &&
+      action.type !== UPDATE_LIST ) {
       return next(action);
     }
 
-    const { query } = action.payload;
-
-    if (query && query.length >= MIN_QUERY_LENGTH_FOR_REQUEST) {
-      const doAlways = () => {
-        searchRequestPendingNumber--;
-        if (searchRequestPendingNumber === 0) {
-          store.dispatch(hidePendingIndicator());
-        }
-      };
-
-      throttledSearchRequest({
-        data: { match: query },
-        onSuccess: result => {
-          const matches = [
-            ...result.success.catalog.map((item) => ({ ...item, type: 'category' })),
-            ...result.success.producer.map((item) => ({ ...item, type: 'company' })),
-            ...result.success.goods.map((item) => ({ ...item, type: 'product' })),
-          ];
-          store.dispatch(showSearchResults(matches));
-          doAlways();
-        },
-        onError: () => {
-          doAlways();
-        }
-      });
-    }
+    throttledSearchRequest();
 
     return next(action);
   };
