@@ -37,6 +37,10 @@ module.exports = {
             loader: "sass-loader"
           }]
         })
+      },
+      {
+        test: /\.svg$/i,
+        loader: "file-loader?name=\.\./img/[name].[ext]"
       }
     ]    
   },

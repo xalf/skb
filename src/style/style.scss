@@ -13,10 +13,24 @@ body {
 
 	
 	&--select {
-		padding-right: 27px;
+		.text-input {
+			padding-right: 27px;
+			&:after {
+				content: '';
+				display: block;
+				position: absolute;
+				top: 50%;
+				margin-top: -2px;
+				right: 10px;
+				border-top: 5px solid #999;
+				border-left: 5px solid transparent;
+				border-bottom: none;
+				border-right: 5px solid transparent;
+			}
+		}
 	}
 	&--search {
-
+	
 	}
 
 	&__dropdown {
@@ -68,6 +82,42 @@ body {
 	right: 3px; 
 }
 
+.loader {
+	padding: 7px 10px;
+	color: #777;
+
+	&.spin {
+		&:before {
+	    animation-name: spin;
+	    animation-duration: 1800ms;
+	    animation-iteration-count: infinite;
+	    animation-timing-function: linear;
+	  }
+	}
+
+	&:before {
+		content: '';
+		display: inline-block;
+		height: 15px;
+		width: 15px;
+    margin-bottom: -2px;
+		margin-right: 5px;
+		will-change: transform;
+		background-image: url('./spinner-circle.svg');
+		background-size: cover;
+		opacity: 0.5;
+	}
+}
+
+@keyframes spin {
+  from {
+    transform:rotate(0deg);
+  }
+  to {
+    transform:rotate(360deg);
+  }
+}
+
 .hide {
 	display: none !important;
 }
@@ -80,6 +130,7 @@ body {
 		border: 1px solid #d9d9d9;
 		border-top-color: #b2b2b2;
     margin-bottom: 10px;
+    position: relative;
 		
 		&__input {
 			border: none;
