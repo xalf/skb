@@ -24,7 +24,6 @@ export default class Combobox extends React.Component {
 	blur = () => {
 		const {
 			query,
-			itemToString,
 			selectedIndex,
 			itemsList,
 			selectedItem,
@@ -32,7 +31,7 @@ export default class Combobox extends React.Component {
 		} = this.props;
 
 		if(!selectedItem && itemsList.length == 1 && 
-			query === itemToString(itemsList[selectedIndex]))
+			query === itemsList[selectedIndex].City)
 			selectItem(itemsList[selectedIndex], selectedIndex);
 		else if(!selectedItem)
 			this.props.leftEmpty();
@@ -91,7 +90,6 @@ export default class Combobox extends React.Component {
   render(){
   	const {
   		placeholder,
-  		itemToString,
   		query,
   		changeSelectedIndex,
   		selectedIndex,
@@ -125,7 +123,7 @@ export default class Combobox extends React.Component {
 	    			sizeClass={ sizeClass }
 	    			changeQuery={ this.changeQuery }
 	    			query={ query }
-	    			selectedString={ itemToString(selectedItem) } />
+	    			selectedString={ selectedItem ? selectedItem.City : false } />
     			{ isDropdownOpen ? (
     				<ComboboxDropdown
 	    				itemsList={ itemsList }

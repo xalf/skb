@@ -1,100 +1,48 @@
 import ReactDom from 'react-dom';
 import React from 'react';
 import { connect, Provider } from 'react-redux';
-import { combineReducers, createStore, applyMiddleware } from 'redux';
-import ComboboxSelect from './js/combobox-select.component';
-import ComboboxSearch from './js/combobox-search.component';
+import { createStore, applyMiddleware, bindActionCreators } from 'redux';
+import appReducer from './js/reducers';
+import App from './js/containers/app';
 import mockFull from './kladr.json';
-import getComboboxReducer from './js/combobox.reducer';
-import {
-	selectItem,
-	changeQuery,
-	changeSelectedIndex,
-	sendSearchRequest,
-	showSearchRequest,
-	hidePendingIndicator,
-	inputFocus,
-	leftEmpty,
-	updateList
-} from './js/combobox.actions';
-import {
-	SMALL_INPUT_CLASS,
-	LARGE_INPUT_CLASS,
-	MEDIUM_INPUT_CLASS
-} from './js/combobox.constants';
+import * as comboboxActions from './js/combobox.actions';
+
 import queryObserverMiddleware from './js/query_observer.middleware';
 import './style/style.scss';
 
 const mockShort = mockFull.slice(0, 50);
 
-const renderItem = item => { 
-	return (
-		<div
-			className="">
-			{ item.City }
-		</div>
-	);
-};
-const filterListFn = query => {
-	if(!query)
-		return () => (true);
+const mapStateToProps = state => ({
+	select: state.select,
+	search: state.search
+});
 
-	const regex = new RegExp(`^${query}`, 'i');
-	return item => {
-		return regex.test(item.City);
-	}
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(comboboxActions, dispatch)
+  }
 }
 
-const itemToString = item => {
-	if(item)
-		return item.City;
-}
-
-const mapStateToProps = state => {
-	return {
-		query: state.query,
-		selectedItem: state.selectedItem,
-		selectedIndex: state.selectedIndex,
-		itemsList: state.itemsList.filter(filterListFn(state.filterQuery)),
-		emptyError: state.emptyError,
-		serverError: state.serverError,
-		isPending: state.isPending
-	}
-}
-const mapDispatchToProps = {
-	selectItem,
-	changeQuery,
-	changeSelectedIndex,
-	sendSearchRequest,
-	showSearchRequest,
-	hidePendingIndicator,
-	inputFocus,
-	leftEmpty,
-	updateList
-};
-
-const mergeProps = (stateProps, dispatchProps, ownProps) => {
-	return Object.assign({}, ownProps, dispatchProps, stateProps, {
-		renderItem: renderItem,
-		itemToString: itemToString,
-		sizeClass: MEDIUM_INPUT_CLASS
-	})
-}
-
-const ComboboxConnected = connect(mapStateToProps, mapDispatchToProps, mergeProps)(ComboboxSelect);
+const ComboboxConnected = connect(mapStateToProps, mapDispatchToProps)(App);
 
 const store = createStore(
-  getComboboxReducer(mockShort, itemToString)
+  appReducer,
+  {
+  	search: {
+  		itemsList: mockShort
+  	},
+  	select: {
+  		itemsList: mockShort
+  	}
+  }
   //applyMiddleware(queryObserverMiddleware)
 );
 
-const App = () => (
-  <Provider store={store}>
-    <ComboboxConnected />
-  </Provider>
-);
-
 ReactDom.render(
-	<App />,
+	(
+		<Provider store={store}>
+	    <ComboboxConnected />
+	  </Provider>
+	),
 	document.getElementById('app-root')
 );

@@ -3,7 +3,7 @@ import Combobox from './combobox.component';
 import { 
 	COMBOBOX_SEARCH_PLACEHOLDER,
 	COMBOBOX_SEARCH_MAX_ITEMS_COUNT
- } from './combobox.constants';
+ } from '../combobox.constants';
 
 export default class ComboboxSearch extends React.Component {
 	render(){

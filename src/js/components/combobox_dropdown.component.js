@@ -6,7 +6,7 @@ import {
 	KEY_CODE_ESC,
 	KEY_CODE_UP,
 	KEY_CODE_DOWN
-} from './combobox.constants';
+} from '../combobox.constants';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 export default class ComboboxDropdown extends React.Component {

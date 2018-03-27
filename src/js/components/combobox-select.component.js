@@ -1,6 +1,6 @@
 import React from 'react';
 import Combobox from './combobox.component';
-import { COMBOBOX_SELECT_PLACEHOLDER } from './combobox.constants';
+import { COMBOBOX_SELECT_PLACEHOLDER } from '../combobox.constants';
 
 const ComboboxSelect = (props) => {
 	return (
