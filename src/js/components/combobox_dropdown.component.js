@@ -10,23 +10,6 @@ import {
 } from '../combobox.constants';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-const addScrollHandler = (elem, onWheel) => {
-  if (elem.addEventListener) {
-    if ('onwheel' in document) {
-      // IE9+, FF17+, Ch31+
-      elem.addEventListener("wheel", onWheel);
-    } else if ('onmousewheel' in document) {
-      // устаревший вариант события
-      elem.addEventListener("mousewheel", onWheel);
-    } else {
-      // Firefox < 17
-      elem.addEventListener("MozMousePixelScroll", onWheel);
-    }
-  } else { // IE8-
-    elem.attachEvent("onmousewheel", onWheel);
-  }
-}
-
 export default class ComboboxDropdown extends React.Component {
   navigateDown = () => {
   	const { 
@@ -59,12 +42,10 @@ export default class ComboboxDropdown extends React.Component {
     }
   }
   componentDidMount() {
-    //addScrollHandler(this.dropdownNode, this.scrollImitation);
     window.addEventListener('keydown', this.onKeyDown);
   }
 
   componentWillUnmount() {
-    //this.dropdownNode.removeEventListener('mousewheel DOMMouseScroll', this.scrollImitation);
     window.removeEventListener('keydown', this.onKeyDown);
   }
   onKeyDown = event => {
@@ -124,7 +105,7 @@ export default class ComboboxDropdown extends React.Component {
           </p>
           <button 
             className="combobox__update"
-            onClick={ updateList }>
+            onClick={ e => { updateList(); } }>
             Обновить
           </button>
         </div>
@@ -176,8 +157,7 @@ export default class ComboboxDropdown extends React.Component {
   	
     return (
     	<div
-        className='combobox__dropdown'
-        ref={node => { this.dropdownNode = node; }} >
+        className='combobox__dropdown' >
     		{ dropdownBody }
     	</div>
     );

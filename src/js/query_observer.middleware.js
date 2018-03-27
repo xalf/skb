@@ -17,7 +17,6 @@ const queryObserverMiddleware = store => next => {
   let searchRequestPendingNumber = 0;
 
   const doAlways = () => {
-    console.log('doAlways');
     searchRequestPendingNumber--;
     if (searchRequestPendingNumber === 0) {
       store.dispatch(hidePendingIndicator());
@@ -39,7 +38,7 @@ const queryObserverMiddleware = store => next => {
   });
 
   return action => {
-    if ((action.type !== CHANGE_QUERY || 
+    if (action.name !== 'search' || (action.type !== CHANGE_QUERY || 
       store.getState().query === action.payload.query
       || !action.payload.query) &&
       action.type !== UPDATE_LIST ) {

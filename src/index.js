@@ -6,7 +6,6 @@ import appReducer from './js/reducers';
 import App from './js/containers/app';
 import mockFull from './kladr.json';
 import * as comboboxActions from './js/combobox.actions';
-
 import queryObserverMiddleware from './js/query_observer.middleware';
 import './style/style.scss';
 
@@ -40,13 +39,13 @@ const store = createStore(
   appReducer,
   {
   	search: Object.assign({}, initialState, {
-  		itemsList: mockFull
+  		itemsList: mockShort
   	}),
   	select: Object.assign({}, initialState, {
   		itemsList: mockShort
   	})	
-  }
-  //applyMiddleware(queryObserverMiddleware)
+  },
+  applyMiddleware(queryObserverMiddleware)
 );
 
 ReactDom.render(

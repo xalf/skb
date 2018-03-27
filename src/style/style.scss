@@ -1,15 +1,49 @@
+@import './fonts';
+
+$dark_grey: #333;
+$grey: #777;
+$base_font_color: $dark_grey;
+$light_font_color: $grey;
+
+$base_font_size: 14px;
+$large_font_size: 16px;
+$small_font_size: 12px;
+
+$red_color: #da0902;
+$error_color: $red_color;
+$blue_color: #5199db;
+$focus_color: $blue_color;
+
+$list_padding: 7px 10px;
+$small_padding: 7px;
+$medium_padding: 11px;
+$large_padding: 14px;
+
 * {
 	box-sizing: border-box;
 }
 body {
-	color: #333;
+	margin: 15px;
+	color: $base_font_color;
+	font-size: $base_font_size;
+	line-height: 1.4;
+	font-family: 'Segoe UI','Helvetica Neue',Arial,Tahoma,sans-serif;
+}
+p {
+	margin: 0;
+}
+
+@keyframes spin {
+  from {
+    transform:rotate(0deg);
+  }
+  to {
+    transform:rotate(360deg);
+  }
 }
 
 .combobox {
 	position: relative;
-	font-size: 14px;
-	line-height: 1.4;
-	font-family: Arial;
 	
 	&__wrapper {
 		margin-bottom: 20px;
@@ -37,10 +71,9 @@ body {
 	}
 
 	&__refind {
-		font-size: 12px;
-		color: #777;
-		padding: 7px 10px;
-		margin: 0;
+		font-size: $small_font_size;
+		color: $light_font_color;
+		padding: $list_padding;
 	}
 
 	&__dropdown {
@@ -56,45 +89,41 @@ body {
 		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); 
 	}
 	&__error-block {
-		color: #da0902;
+		color: $error_color;
+		font-size: 15px;
 	}
 	&__update {
 		display: block;
 		width: 100%;
 		border: none;
-		background-color: #5199db;
+		background-color: $blue_color;
 		color: #fff;
-		padding: 7px 10px;
+		padding: $list_padding;
+		text-align: left;
+		cursor: pointer;
 	}
 	&__server-error {
 		p {
-			padding: 7px 10px;
+			padding: $list_padding;
 		}
 	}
 	&__listitem {
-		padding: 7px 10px;
+		padding: $list_padding;
 		cursor: pointer;
 		&.active {
-			background-color: #5199db;
+			background-color: $focus_color;
 			color: #fff;
 		}
 	}
 	&__empty {
-		color: #777;
-		margin: 0;
-		padding: 7px 10px;
+		color: $light_font_color;
+		padding: $list_padding;
 	}
 }
 
-.thumb-vertical {
-	border-radius: 2px;
-	background-color: #bbb;
-	right: 3px; 
-}
-
 .loader {
-	padding: 7px 10px;
-	color: #777;
+	padding: $list_padding;
+	color: $light_font_color;
 
 	&.spin {
 		&:before {
@@ -119,71 +148,64 @@ body {
 	}
 }
 
-@keyframes spin {
-  from {
-    transform:rotate(0deg);
-  }
-  to {
-    transform:rotate(360deg);
-  }
-}
-
-.hide {
-	display: none !important;
-}
-
 .text-input {
-		width: 340px;
-    display: block;
-    white-space: nowrap;
-		padding-left: 10px;
-		border: 1px solid #d9d9d9;
-		border-top-color: #b2b2b2;
-    margin-bottom: 10px;
-    position: relative;
-		
-		&__input {
-			border: none;
-			outline: none;
-			padding: 0;
-			display: block;
-    	width: 100%;
-    	font-size: inherit;
-    	line-height: inherit;
-    	font-family: inherit;
+	width: 340px;
+  display: block;
+  white-space: nowrap;
+	padding-left: 10px;
+	border: 1px solid #d9d9d9;
+	border-top-color: #b2b2b2;
+  margin-bottom: 10px;
+  position: relative;
+	
+	&__input {
+		border: none;
+		outline: none;
+		padding: 0;
+		display: block;
+  	width: 100%;
+  	font-size: inherit;
+  	line-height: inherit;
+  	font-family: inherit;
 
-    	&::placeholder {
-    		color: #ccc;
-    	}
-		}
-		&__placeholder {
-			display: block;
-			color: #aaa;
-		}
-		&__value {
-			display: block;
-		}
-
-		&.small {
-			padding-top: 6px;
-			padding-bottom: 6px;
-		}
-		&.medium {
-			padding-top: 9px;
-			padding-bottom: 9px;
-		}
-		&.large {
-			font-size: 16px;
-			padding-top: 11px;
-			padding-bottom: 11px;
-		}
-
-		&.error {
-			border-color: #da0902;
-			box-shadow: 0 0 0 1px #da0902;
-		}
-		&.focus {
-			border-color: #5199db;
-			box-shadow: 0 0 0 1px #5199db;
-		}
+  	&::placeholder {
+  		color: #ccc;
+  	}
 	}
+	&__placeholder {
+		display: block;
+		color: #aaa;
+	}
+	&__value {
+		display: block;
+	}
+
+	&.small {
+		padding-top: $small_padding;
+		padding-bottom: $small_padding;
+	}
+	&.medium {
+		padding-top: $medium_padding;
+		padding-bottom: $medium_padding;
+	}
+	&.large {
+		font-size: $large_font_size;
+		padding-top: $large_padding;
+		padding-bottom: $large_padding;
+	}
+
+	&.error {
+		border-color: $error_color;
+		box-shadow: 0 0 0 1px $error_color;
+	}
+	&.focus {
+		border-color: $focus_color;
+		box-shadow: 0 0 0 1px $focus_color;
+	}
+}
+
+.thumb-vertical {
+	border-radius: 2px;
+	background-color: #bbb;
+	right: 3px; 
+}

@@ -1,0 +1,15 @@
+body {
+    -webkit-font-smoothing: antialiased
+}
+
+@font-face {
+    font-family: "Segoe UI";
+    font-weight: 300;
+    src: local("Segoe UI Semilight"),local('SegoeUI-Semilight'),url('https://i.s-microsoft.com/fonts/Segoe-UI/Cyrillic/SemiLight/latest.woff') format('woff')
+}
+
+@font-face {
+    font-family: "Segoe UI";
+    font-weight: 400;
+    src: local("Segoe UI"),local('SegoeUI'),url('https://i.s-microsoft.com/fonts/Segoe-UI/Cyrillic/Normal/latest.woff') format('woff')
+}

@@ -132,7 +132,8 @@ export default class Combobox extends React.Component {
   		sizeClass,
   		updateList,
   		maxItemsCount,
-  		itemsListCount
+  		itemsListCount,
+  		isFocus
   	} = this.props;
   	const {
   		isInputFocus,
@@ -170,7 +171,7 @@ export default class Combobox extends React.Component {
 	    				itemsListCount={ itemsListCount }/>
     			) : null }
 	    	</div>
-	    	{ emptyError ? (
+	    	{ emptyError && !isFocus ? (
 	    		<div className="combobox__error-block">
 		    		{ emptyError }
 		    	</div>
