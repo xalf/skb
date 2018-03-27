@@ -4,25 +4,14 @@ import {
 	SEND_SEARCH_REQUEST,
 	SHOW_SEARCH_RESULTS,
 	HIDE_PENDING_INDICATOR,
-	INPUT_FOCUS,
+	SET_INPUT_TEXT,
 	LEFT_EMPTY,
 	EMPTY_ERROR,
 	CHANGE_SELECTED_INDEX,
 	SEND_SEARCH_REQUEST_ERROR
 } from '../combobox.constants';
 
-
-const initialState = {
-	selectedIndex: null,
-	selectedItem: null,
-	itemsList: [],
-	query: '',
-	filterQuery: '',
-	emptyError: false,
-	serverError: false,
-	isPending: false
-}
-const comboboxReducer = (state = initialState, action) => {
+const comboboxReducer = (state = {}, action) => {
 	switch (action.type) {
 		case SELECT_ITEM: {
 			return {
@@ -48,7 +37,7 @@ const comboboxReducer = (state = initialState, action) => {
 				selectedIndex: action.payload.i
 			}
 		}
-		case INPUT_FOCUS: {
+		case SET_INPUT_TEXT: {
 			let queryUpdate = state.query;
 			if(state.selectedItem)
 				queryUpdate = state.selectedItem.City

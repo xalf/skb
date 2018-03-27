@@ -1,18 +1,17 @@
+import { combineReducers } from 'redux';
 import comboboxReducer from './combobox.reducer';
 
-export default (state, action) => {
-  let new_state;
-  if(!!state){
-  	new_state = {
-  		search:  comboboxReducer(state.search, action),
-  		select:  comboboxReducer(state.select, action)
-  	}
-  } else {
-  	new_state = {
-  		search: comboboxReducer(state, action),
-  		select: comboboxReducer(state, action)
-  	}
-  }
-
-  return new_state;
+function createNamedWrapperReducer(reducerFunction, reducerName) {
+    return (state, action) => {
+        const {name} = action;
+        const isInitializationCall = state === undefined;
+        if(name && name !== reducerName && !isInitializationCall) return state;
+ 		
+				return reducerFunction(state, action);  
+    }
 }
+
+export default combineReducers({
+	search: createNamedWrapperReducer(comboboxReducer, 'search'),
+	select: createNamedWrapperReducer(comboboxReducer, 'select')
+});

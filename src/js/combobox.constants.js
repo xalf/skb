@@ -9,6 +9,7 @@ export const KEY_CODE_ENTER = 13;
 export const KEY_CODE_ESC = 27;
 export const KEY_CODE_UP = 38;
 export const KEY_CODE_DOWN = 40;
+export const KEY_CODE_TAB = 9;
 
 export const SELECT_ITEM = 'SELECT_ITEM';
 export const CHANGE_QUERY = 'CHANGE_QUERY';
@@ -17,7 +18,7 @@ export const SEND_SEARCH_REQUEST = 'SEND_SEARCH_REQUEST';
 export const SHOW_SEARCH_RESULTS = 'SHOW_SEARCH_RESULTS';
 export const SEND_SEARCH_REQUEST_ERROR = 'SEND_SEARCH_REQUEST_ERROR';
 export const HIDE_PENDING_INDICATOR = 'HIDE_PENDING_INDICATOR';
-export const INPUT_FOCUS = 'INPUT_FOCUS';
+export const SET_INPUT_TEXT = 'SET_INPUT_TEXT';
 export const LEFT_EMPTY = 'LEFT_EMPTY';
 export const UPDATE_LIST = 'UPDATE_LIST';
 

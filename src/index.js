@@ -25,15 +25,26 @@ function mapDispatchToProps(dispatch) {
 
 const ComboboxConnected = connect(mapStateToProps, mapDispatchToProps)(App);
 
+const initialState = {
+	selectedIndex: null,
+	selectedItem: null,
+	itemsList: [],
+	query: '',
+	filterQuery: '',
+	emptyError: false,
+	serverError: false,
+	isPending: false
+}
+
 const store = createStore(
   appReducer,
   {
-  	search: {
+  	search: Object.assign({}, initialState, {
+  		itemsList: mockFull
+  	}),
+  	select: Object.assign({}, initialState, {
   		itemsList: mockShort
-  	},
-  	select: {
-  		itemsList: mockShort
-  	}
+  	})	
   }
   //applyMiddleware(queryObserverMiddleware)
 );

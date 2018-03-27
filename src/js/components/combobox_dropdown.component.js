@@ -5,14 +5,29 @@ import {
 	KEY_CODE_ENTER,
 	KEY_CODE_ESC,
 	KEY_CODE_UP,
-	KEY_CODE_DOWN
+	KEY_CODE_DOWN,
+  REFIND_REQUEST_MESSAGE
 } from '../combobox.constants';
 import { Scrollbars } from 'react-custom-scrollbars';
 
+const addScrollHandler = (elem, onWheel) => {
+  if (elem.addEventListener) {
+    if ('onwheel' in document) {
+      // IE9+, FF17+, Ch31+
+      elem.addEventListener("wheel", onWheel);
+    } else if ('onmousewheel' in document) {
+      // устаревший вариант события
+      elem.addEventListener("mousewheel", onWheel);
+    } else {
+      // Firefox < 17
+      elem.addEventListener("MozMousePixelScroll", onWheel);
+    }
+  } else { // IE8-
+    elem.attachEvent("onmousewheel", onWheel);
+  }
+}
+
 export default class ComboboxDropdown extends React.Component {
-	
-  //блокирование скроллинга, скроллбар
-  
   navigateDown = () => {
   	const { 
   		itemsList, 
@@ -34,18 +49,25 @@ export default class ComboboxDropdown extends React.Component {
   	if(newSelectedIndex >= 0)
   		changeSelectedIndex(newSelectedIndex);
   }
+  scrollImitation = (e) => {
+    var scrollTo = null;
+    var scrollTo = e.deltaY || e.detail || e.wheelDelta;
+    if (scrollTo) {
+      e.preventDefault();
+      console.log(this.dropdownNode.scrollTop)
+      this.dropdownNode.scrollTop = scrollTo + this.dropdownNode.scrollTop;
+    }
+  }
   componentDidMount() {
+    //addScrollHandler(this.dropdownNode, this.scrollImitation);
     window.addEventListener('keydown', this.onKeyDown);
   }
 
   componentWillUnmount() {
+    //this.dropdownNode.removeEventListener('mousewheel DOMMouseScroll', this.scrollImitation);
     window.removeEventListener('keydown', this.onKeyDown);
   }
   onKeyDown = event => {
-    // if (!this.props.isOpen) {
-    //   return;
-    // }
-
     if ([KEY_CODE_ESC, KEY_CODE_ENTER].includes(event.keyCode)) {
       event.preventDefault();
       event.stopPropagation();
@@ -57,7 +79,6 @@ export default class ComboboxDropdown extends React.Component {
       } else
         return;
 
-
     switch (event.keyCode) {
       case KEY_CODE_DOWN:
         this.navigateDown();
@@ -67,7 +88,7 @@ export default class ComboboxDropdown extends React.Component {
         break;
       case KEY_CODE_ENTER:
         if (this.props.selectedIndex !== null) {
-          this.props.selectItem( 
+          this.props.selectItemByEnter( 
           	this.props.itemsList[this.props.selectedIndex],
             this.props.selectedIndex
           );
@@ -83,7 +104,11 @@ export default class ComboboxDropdown extends React.Component {
   		itemsList,
       serverError,
       isPending,
-      updateList
+      updateList,
+      selectItemByClick,
+      selectedIndex,
+      maxItemsCount,
+      itemsListCount
   	} = this.props;
 
   	let dropdownBody;
@@ -108,25 +133,41 @@ export default class ComboboxDropdown extends React.Component {
       const list = itemsList
         .map((item,i) => {
           let isActive = false;
-          if(i === this.props.selectedIndex)
+          if(i === selectedIndex)
             isActive = true;
 
           return (
             <ComboboxListItem
               key={ i }
               isActive={ isActive }
-              clickHandler={ () => { this.props.selectItem(item, i); } }>
+              clickHandler={ () => { selectItemByClick(item, i); } }>
               { this.props.renderItem(item) }
             </ComboboxListItem>
           );
         });
-        dropdownBody = (
-          <Scrollbars
-            style={{ height: 345, width: 340 }}
-            renderThumbVertical={props => <div {...props} className="thumb-vertical"/>}>
-            { list }
-          </Scrollbars>
-        );
+        if(maxItemsCount < itemsListCount){
+          dropdownBody = (
+            <div>
+              { list }
+              <p className="combobox__refind">
+                { `Показано ${ maxItemsCount } из ${ itemsListCount } найденных городов.` }
+                <br/>
+                Уточните запрос, чтобы увидеть остальные
+              </p>
+            </div>
+          );
+        } else {
+          dropdownBody = (
+            <Scrollbars
+              autoHeight
+              autoHeightMax={345}
+              style={{ width: 340 }}
+              renderView={props => <div {...props} className="view"/>}
+              renderThumbVertical={props => <div {...props} className="thumb-vertical"/>}>
+              { list }
+            </Scrollbars>
+          );
+        }
     } else {
       dropdownBody = (
         <p className="combobox__empty">Не найдено</p>
@@ -134,7 +175,9 @@ export default class ComboboxDropdown extends React.Component {
     }
   	
     return (
-    	<div className='combobox__dropdown'>
+    	<div
+        className='combobox__dropdown'
+        ref={node => { this.dropdownNode = node; }} >
     		{ dropdownBody }
     	</div>
     );

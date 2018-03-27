@@ -9,7 +9,7 @@ const ComboboxSelect = (props) => {
 			placeholder={ COMBOBOX_SELECT_PLACEHOLDER } 
 			comboboxTypeClass={ 'combobox--select' }
 			isOpenFocus={ true }
-			/>
+			comboboxName={ 'select' }/>
 	);
 }
 

@@ -22,6 +22,7 @@ export default class ComboboxInput extends React.Component {
 			inputBody =  (
 				<input
 					type="text"
+					autoFocus
 					className="text-input__input"
 					placeholder={ placeholder }
 					value={ query }
