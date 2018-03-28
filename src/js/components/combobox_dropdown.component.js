@@ -32,15 +32,6 @@ export default class ComboboxDropdown extends React.Component {
   	if(newSelectedIndex >= 0)
   		changeSelectedIndex(newSelectedIndex);
   }
-  scrollImitation = (e) => {
-    var scrollTo = null;
-    var scrollTo = e.deltaY || e.detail || e.wheelDelta;
-    if (scrollTo) {
-      e.preventDefault();
-      console.log(this.dropdownNode.scrollTop)
-      this.dropdownNode.scrollTop = scrollTo + this.dropdownNode.scrollTop;
-    }
-  }
   componentDidMount() {
     window.addEventListener('keydown', this.onKeyDown);
   }
@@ -89,7 +80,8 @@ export default class ComboboxDropdown extends React.Component {
       selectItemByClick,
       selectedIndex,
       maxItemsCount,
-      itemsListCount
+      itemsListCount,
+      renderItem
   	} = this.props;
 
   	let dropdownBody;
@@ -122,7 +114,7 @@ export default class ComboboxDropdown extends React.Component {
               key={ i }
               isActive={ isActive }
               clickHandler={ () => { selectItemByClick(item, i); } }>
-              { this.props.renderItem(item) }
+              { renderItem(item) }
             </ComboboxListItem>
           );
         });
@@ -141,10 +133,9 @@ export default class ComboboxDropdown extends React.Component {
           dropdownBody = (
             <Scrollbars
               autoHeight
-              autoHeightMax={345}
+              autoHeightMax={ 345 }
               style={{ width: 340 }}
-              renderView={props => <div {...props} className="view"/>}
-              renderThumbVertical={props => <div {...props} className="thumb-vertical"/>}>
+              renderThumbVertical={ props => <div {...props} className="thumb-vertical"/> }>
               { list }
             </Scrollbars>
           );

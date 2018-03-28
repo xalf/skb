@@ -31,14 +31,17 @@ const filterListFn = (list, query) => {
 const addNameInActions = (actions, name) => {
 	let newActions = {};
 	const keys = Object.keys(actions);
+
 	for(let i in keys){
 		const key = keys[i];
 		const action = actions[key];
+
 		const decorAction = function () {
-			const newArguments = [].slice.call(arguments);;
+			let newArguments = [].slice.call(arguments);
 			newArguments.push(name);
 			return action.apply(this, newArguments);
 		};
+
 		newActions[key] = decorAction;
 	}
 	return newActions;
@@ -50,6 +53,7 @@ const App = ({ select, search, actions }) => {
 	
 	const selectActions = addNameInActions(actions, 'select');
 	const searchActions = addNameInActions(actions, 'search');
+	
 	const selectProps = Object.assign({}, select, selectActions);
 	const searchProps = Object.assign({}, search, searchActions);
 

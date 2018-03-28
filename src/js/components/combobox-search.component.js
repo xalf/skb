@@ -10,8 +10,7 @@ export default class ComboboxSearch extends React.Component {
 			<Combobox
 				{ ...this.props }
 				placeholder={ COMBOBOX_SEARCH_PLACEHOLDER }
-				comboboxClass={ 'combobox--search' }
-				comboboxName={ 'search' } />
+				comboboxClass={ 'combobox--search' } />
 		);
 	}
 }

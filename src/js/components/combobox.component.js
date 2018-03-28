@@ -16,6 +16,8 @@ export default class Combobox extends React.Component {
 			this.props.toggleFocus(true);
 		else if(!this.state.isInputFocus)
 			this.focusInput();
+		else if (this.props.isOpenFocus)
+			this.openDropdown();
   }
 	focusInput = () => {
 		this.props.setInputText();
@@ -40,8 +42,8 @@ export default class Combobox extends React.Component {
     });
   }
 	handleClick = e => {
-    if (this.combobox_node && this.combobox_node.contains(e.target)) {
-    	if(this.input_node && this.input_node.contains(e.target))
+    if (this.comboboxNode && this.comboboxNode.contains(e.target)) {
+    	if(this.inputNode && this.inputNode.contains(e.target))
     		this.focusInput();
     	else 
     		this.blurInput();
@@ -143,10 +145,10 @@ export default class Combobox extends React.Component {
     return (
     	<div className="combobox__wrapper">
 	    	<div
-	    		ref={ node => { this.combobox_node = node; } }
+	    		ref={ node => { this.comboboxNode = node; } }
 	    		className={ `combobox ${ comboboxTypeClass }`}>
 	    		<ComboboxInput
-	    			inputRef={ node => { this.input_node = node; } }
+	    			inputRef={ node => { this.inputNode = node; } }
 	    			placeholder={ placeholder }
 	    			setFocus={ this.inputClick }
 	    			isFocus={ isInputFocus }

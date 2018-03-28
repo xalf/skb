@@ -3,13 +3,7 @@ var webpack = require("webpack");
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  //context: path.join(__dirname, "src"),
-  //entry: "app.js",
-  // output: {
-  //   path: path.resolve(__dirname, 'dist/js/'),
-  //   filename: 'bundle.js'
-  // },
-  devtool: 'eval-source-map',
+  // devtool: 'eval-source-map',
   module: {
     rules: [
       {
@@ -44,13 +38,10 @@ module.exports = {
       }
     ]    
   },
-  watch: true,
+  //watch: true,
   plugins: [
   	new ExtractTextPlugin({
       filename: 'style/[name].css'
-      // filename:  (getPath) => {
-      //   return getPath('js/[name].css').replace('js', '../style');
-      // }
     })
   ],
   
